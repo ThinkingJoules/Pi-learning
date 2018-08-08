@@ -60,14 +60,12 @@ def currentVoltage():
                  voltage= ad_value*(3.3/1024)*5
                  return voltage
 
-def waitForStart():
-        currentVoltage()
-        while True
-                timeout = time.time() + minOnTime
+def waitForStart(mintime, minvolts):
+        while True:
+                timeout = time.time() + mintime
                 while time.time() < timeout:
-                    currentVoltage()
                     print 'light on, but waiting for minOnTime'
-                    if voltage < minVolts:
+                    if currentVoltage() < minvolts:
                         print 'just a blink, still waiting'
                         break
                 else:
@@ -77,12 +75,11 @@ def waitForStart():
         durStart = time.time()
         return durStart
 
-def waitForEnd():
-        while True
-                currentVoltage()
-                if voltage > minVolts:
+def waitForEnd(minvolts):
+        while True:
+                if currentVoltage() > minvolts:
                     time.sleep(0.05)
-                    print: 'waiting for end of cycle'
+                    print 'waiting for end of cycle'
                 else:
                     print '{} {}'.format('Cycle ended at',time.time())
                     durEnd = time.time()
@@ -96,10 +93,10 @@ def main():
          minVolts = 2
          print"Starting"
          while True:
-                  waitForStart()
+                  waitForStart(minOnTime,minVolts)
                   print 'main loop'
                   time.sleep(0.05)
-                  waitForEnd()
+                  waitForEnd(minVolts)
                   print 'end of main loop'
 
 
