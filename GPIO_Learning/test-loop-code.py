@@ -65,6 +65,7 @@ def currentVoltage():
 
 def waitForStart(mintime, minvolts):
         print 'starting waitForStart'
+	global durStart
         while True:
                 timeout = time.time() + mintime
                 while time.time() < timeout:
@@ -81,6 +82,7 @@ def waitForStart(mintime, minvolts):
 
 def waitForEnd(minvolts):
         print 'starting waitForEnd'
+	global durEnd
         while True:
                 if currentVoltage() > minvolts:
                     time.sleep(0.05)
@@ -99,12 +101,15 @@ def main():
          print"Starting"
          while True:
                   waitForStart(minOnTime,minVolts)
-                  print 'main loop'
+                  #print 'main loop'
                   time.sleep(0.05)
                   waitForEnd(minVolts)
-                  durTot = durEnd - durStart
-                  print 'end of main loop'
-                  print '{} {} {}'.format('cycle duration', durTot, 'seconds)'
+		  #print durEnd
+		  #print durStart
+                  durTot = float(durEnd) - float(durStart) + minOnTime
+		  durTotRnd = round(durTot, 3)
+                  #print durTotRnd
+                  print '{} {} {}'.format('cycle duration', durTotRnd, 'seconds')
 
 
 
