@@ -55,30 +55,53 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
         adcout >>= 1       # first bit is 'null' so drop it
         return adcout
 
+def currentVoltage():
+                 ad_value = readadc(AO_pin, SPICLK, SPIMOSI, SPIMISO, SPICS)
+                 voltage= ad_value*(3.3/1024)*5
+                 return voltage
+
+def waitForStart():
+        currentVoltage()
+        while True
+                timeout = time.time() + minOnTime
+                while time.time() < timeout:
+                    currentVoltage()
+                    print 'light on, but waiting for minOnTime'
+                    if voltage < minVolts:
+                        print 'just a blink, still waiting'
+                        break
+                else:
+                    break
+                time.sleep(0.05)
+        print '{} {}'.format('Cycle started at',time.time())
+        durStart = time.time()
+        return durStart
+
+def waitForEnd():
+        while True
+                currentVoltage()
+                if voltage > minVolts:
+                    time.sleep(0.05)
+                    print: 'waiting for end of cycle'
+                else:
+                    print '{} {}'.format('Cycle ended at',time.time())
+                    durEnd = time.time()
+                    break
+        return durEnd
+
 def main():
          init()
          time.sleep(2)
          minOnTime = 2
-         print"will detect voltage"
+         minVolts = 2
+         print"Starting"
          while True:
-                  ad_value = readadc(AO_pin, SPICLK, SPIMOSI, SPIMISO, SPICS)
-                  voltage= ad_value*(3.3/1024)*5
-                  print"**********"
-                  print " Voltage is: " + str("%.2f"%voltage)+"V"
-                  print"***********"
-                  print' '
+                  waitForStart()
+                  print 'main loop'
                   time.sleep(0.05)
-                  if voltage > 2:
-                          while True
-                                  ad_value = readadc(AO_pin, SPICLK, SPIMOSI, SPIMISO, SPICS)
-                                  voltage= ad_value*(3.3/1024)*5
-                                  timeout = time.time() + minOnTime
-                                  if time.time() < timeout:
-                                          time.sleep(0.05)
-                                  else: break
-                  print'{} {}'.format('Cycle Started at', time.time())
-                 
-         print"cycle end"
+                  waitForEnd()
+                  print 'end of main loop'
+
 
 
 
@@ -87,4 +110,4 @@ if __name__ =='__main__':
                   main()
          except KeyboardInterrupt:
                   pass
-GPIO.cleanup() 
+GPIO.cleanup()
