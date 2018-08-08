@@ -26,6 +26,8 @@ def create_table(conn, create_table_sql):
     try:
         c = conn.cursor()
         c.execute(create_table_sql)
+	conn.commit()
+	conn.close
     except Error as e:
         print(e)
 
@@ -33,25 +35,18 @@ def main():
 
     database = os.getlogin() + '.db'
 
-    sql_create_events_table = """ CREATE TABLE IF NOT EXISTS Events (
+    sql_create_events_table = """ CREATE TABLE IF NOT EXISTS events (
                                             id integer PRIMARY KEY,
                                             ISO_Week text,
                                             Event_ISO_Date text,
                                             Unix_Time real,
                                             Event_Type text
-                                            Duration real,
+                                            Duration real
                                         ); """
 
 
-    # create a database connection
     conn = create_connection(database)
-    if conn is not None:
-        # create projects table
-        create_table(conn, sql_create_projects_table)
-        # create tasks table
-        create_table(conn, sql_create_tasks_table)
-    else:
-        print("Error! cannot create the database connection.")
+    create_table(conn, sql_create_events_table)
 
 if __name__ == '__main__':
     main()
