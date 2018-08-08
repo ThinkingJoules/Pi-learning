@@ -58,16 +58,27 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 def main():
          init()
          time.sleep(2)
+         minOnTime = 2
          print"will detect voltage"
          while True:
                   ad_value = readadc(AO_pin, SPICLK, SPIMOSI, SPIMISO, SPICS)
                   voltage= ad_value*(3.3/1024)*5
-                  print"***********"
+                  print"**********"
                   print " Voltage is: " + str("%.2f"%voltage)+"V"
                   print"***********"
                   print' '
-                  time.sleep(0.5)
-
+                  time.sleep(0.05)
+                  if voltage > 2:
+                          while True
+                                  ad_value = readadc(AO_pin, SPICLK, SPIMOSI, SPIMISO, SPICS)
+                                  voltage= ad_value*(3.3/1024)*5
+                                  timeout = time.time() + minOnTime
+                                  if time.time() < timeout:
+                                          time.sleep(0.05)
+                                  else: break
+                  print'{} {}'.format('Cycle Started at', time.time())
+                 
+         print"cycle end"
 
 
 
