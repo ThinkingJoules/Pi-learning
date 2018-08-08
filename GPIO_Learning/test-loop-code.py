@@ -1,5 +1,8 @@
 import RPi.GPIO as GPIO
 import time
+import os
+import datetime
+
 
 AO_pin = 0 #flame sensor AO connected to ADC chanannel 0
 # change these as desired - they're the pins connected from the
@@ -64,7 +67,7 @@ def currentVoltage():
                  return voltage
 
 def waitForStart(mintime, minvolts):
-        print 'starting waitForStart'
+        print 'Standing By'
 	global durStart
         while True:
                 timeout = time.time() + mintime
@@ -76,19 +79,19 @@ def waitForStart(mintime, minvolts):
                 else:
                     break
                 time.sleep(0.05)
-        print '{} {}'.format('Cycle started at',time.time())
+        print '{} {} {} {}'.format('Cycle started at',datetime.datetime.now().isoformat, 'ISO Week:', datetime.date.now().isocalendar()[1])
         durStart = time.time()
         return durStart
 
 def waitForEnd(minvolts):
-        print 'starting waitForEnd'
+        print 'In Cycle'
 	global durEnd
         while True:
                 if currentVoltage() > minvolts:
                     time.sleep(0.05)
                     #print 'waiting for end of cycle'
                 else:
-                    print '{} {}'.format('Cycle ended at',time.time())
+                    print '{} {} {} {}'.format('Cycle ended at',datetime.datetime.now().isoformat, 'ISO Week:', datetime.date.now().isocalendar()[1])
                     durEnd = time.time()
                     break
         return durEnd
@@ -109,7 +112,8 @@ def main():
                   durTot = float(durEnd) - float(durStart) + minOnTime
 		  durTotRnd = round(durTot, 3)
                   #print durTotRnd
-                  print '{} {} {}'.format('cycle duration', durTotRnd, 'seconds')
+                  print '{} {} {} {}'.format(os.getegid(),'cycle duration', durTotRnd, 'seconds')
+                  #each node user must be named for the machine on which it is logging
 
 
 
