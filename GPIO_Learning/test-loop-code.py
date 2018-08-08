@@ -9,6 +9,9 @@ SPIMISO = 9
 SPIMOSI = 10
 SPICS = 8
 
+durStart = 0
+durEnd = 0
+
 #port init
 def init():
           GPIO.setwarnings(False)
@@ -99,9 +102,9 @@ def main():
                   print 'main loop'
                   time.sleep(0.05)
                   waitForEnd(minVolts)
-                  durTot = waitForEnd() - waitForStart()
+                  durTot = durEnd - durStart
                   print 'end of main loop'
-                  print durTot
+                  print '{} {} {}'.format('cycle duration', durTot, 'seconds)'
 
 
 
