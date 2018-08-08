@@ -13,21 +13,20 @@ def setup():
 
 
 def loop():
-
-	
 	while True:
 		GPIO.output(LedPin, GPIO.LOW)  # led on
-		time.sleep(1)
+		print 'in cycle for 20 seconds'
+		time.sleep(20)
 		cycle_wait = randint(5,15)
 		timeout = time.time() + cycle_wait
-			while True:
-				print('standby for' + cycle_wait + 'seconds')
-				GPIO.output(LedPin, GPIO.LOW)  # led on
-				time.sleep(0.75)
-				GPIO.output(LedPin, GPIO.HIGH) # led off
-				time.sleep(0.25)
-				if time.time() > timeout:
-					break
+		while True:
+			print '{} {} {}'.format('standby for ',cycle_wait,'seconds')
+			GPIO.output(LedPin, GPIO.LOW)  # led on
+			time.sleep(0.75)
+			GPIO.output(LedPin, GPIO.HIGH) # led off
+			time.sleep(0.25)
+			if time.time() > timeout:
+				break
 
 def destroy():
 	GPIO.output(LedPin, GPIO.HIGH)     # led off
