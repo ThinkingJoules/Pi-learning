@@ -40,6 +40,7 @@ def main():
                                             ISO_Week text,
                                             Event_ISO_Date text,
                                             Unix_Time real,
+                                            Node text,
                                             Event_Type text
                                             Duration real
                                         ); """
