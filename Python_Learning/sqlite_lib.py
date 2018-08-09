@@ -44,9 +44,3 @@ def create_event(conn, event):
     c.execute(sql, event)
     conn.commit()
     return c.lastrowid
-
-ISO_Week text,
-Event_ISO_Date text,
-Unix_Time real,
-Event_Type text
-Duration real
