@@ -44,3 +44,18 @@ def create_event(conn, event):
     c.execute(sql, event)
     conn.commit()
     return c.lastrowid
+
+def last_5_mins(conn,from_time):
+    """
+    Query tasks by priority
+    :param conn: the Connection object
+    :param time, now:
+    :return:
+    """
+    c = conn.cursor()
+    c.execute("SELECT sum(Duration)"
+                "FROM events"
+                "[WHERE Unix_Time > ?;",from_time)
+
+    durTot = round(cur.fetchone(),2)
+    return durTot
