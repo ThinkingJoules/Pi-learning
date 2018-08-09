@@ -52,10 +52,14 @@ def last_5_mins(conn,from_time):
     :param time, now:
     :return:
     """
+    durTot = 0
+    time = '{}'.format(from_time)
+    query = ''' SELECT sum(duration) FROM events WHERE event_type = 'Cycle End' AND unix_time > ?'''
     c = conn.cursor()
-    c.execute("SELECT sum(Duration)"
-                "FROM events"
-                "[WHERE Unix_Time > ?;",from_time)
-
-    durTot = round(cur.fetchone(),2)
+    c.execute(query,(time,))
+    (data, ) = c.fetchone()
+    try:
+   	 durTot = round(data,2)
+    except:
+	pass
     return durTot

@@ -1,6 +1,9 @@
 import gspread
 import time
-import sqlite_lib as sql
+import sqlite_lib
+import os
+import datetime
+from datetime import date
 from oauth2client.service_account import ServiceAccountCredentials
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -16,9 +19,13 @@ conn = sqlite_lib.create_connection() #connect to db
 #assemble query
 time = time.time()
 five_mins_ago = int(time) - 300
-csTime = sql.last_5_mins(conn,five_mins_ago)
+csTime = sqlite_lib.last_5_mins(conn,five_mins_ago)
+if csTime == 0:
+	print "don't send to spreadsheet"
+	pass
+else:
+	print '{} {} {} {} {}'.format(os.getlogin(),'W' + str(date.today().isocalendar()[1]), 'Cycle Time', csTime, seconds)
 
-print csTime
 #append to spreadsheet
 
 #wks.update_cell(1,1, 'Hello World')
