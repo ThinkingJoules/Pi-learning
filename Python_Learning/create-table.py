@@ -41,7 +41,7 @@ def main():
                                             Event_ISO_Date text,
                                             Unix_Time real,
                                             Node text,
-                                            Event_Type text
+                                            Event_Type text,
                                             Duration real
                                         ); """
 

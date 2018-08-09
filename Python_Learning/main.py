@@ -83,17 +83,17 @@ def waitForStart(conn, mintime, minvolts):
                 time.sleep(0.05)
         print '{} {} {} {}'.format('Cycle started at',datetime.datetime.now().isoformat(), 'ISO Week:', date.today().isocalendar()[1])
         durStart = time.time()
-        standbyTime = float(durstart) - float(durEnd)
+        standbyTime = float(durStart) - float(durEnd)
         standbyRd = round(standbyTime, 2)
-        week = 'W' + date.today().isocalendar()[1])
+        week = 'W' + str(date.today().isocalendar()[1])
         isoDate = datetime.datetime.now().isoformat()
         unixTime = time.time()
         node = os.getlogin()
-        event = (Week,isoDate,unixTime,node,'Cycle Start',standbyRd)
+        event = (week,isoDate,unixTime,node,'Cycle Start',standbyRd)
         sqlite_lib.create_event(conn,event)
         return durStart
 
-def waitForEnd(conn, minvolts):
+def waitForEnd(conn, mintime, minvolts):
         print 'In Cycle'
 	global durEnd
         while True:
@@ -103,13 +103,13 @@ def waitForEnd(conn, minvolts):
                 else:
                     print '{} {} {} {}'.format('Cycle ended at',datetime.datetime.now().isoformat(), 'ISO Week:', date.today().isocalendar()[1])
                     durEnd = time.time()
-                    durTot = float(durEnd) - float(durStart) + minOnTime
-  		            durTotRnd = round(durTot, 2)
-                    week = 'W' + date.today().isocalendar()[1])
+                    durTot = float(durEnd) - float(durStart) + mintime
+  		    durTotRnd = round(durTot, 2)
+                    week = 'W' + str(date.today().isocalendar()[1])
                     isoDate = datetime.datetime.now().isoformat()
                     unixTime = time.time()
                     node = os.getlogin()
-                    event = (Week,isoDate,unixTime,node,'Cycle End',durTotRnd)
+                    event = (week,isoDate,unixTime,node,'Cycle End',durTotRnd)
                     sqlite_lib.create_event(conn,event)
                     break
         return durEnd
@@ -124,9 +124,9 @@ def main():
          while True:
                   waitForStart(conn, minOnTime, minVolts)
                   time.sleep(0.05)
-                  waitForEnd(conn, minVolts)
+                  waitForEnd(conn, minOnTime, minVolts)
                   durTot = float(durEnd) - float(durStart) + minOnTime
-		          durTotRnd = round(durTot, 3)
+	          durTotRnd = round(durTot, 3)
                   print '{} {} {} {}'.format(os.getlogin(),'cycle duration', durTotRnd, 'seconds')
                   #each node user must be named for the machine on which it is logging
 

@@ -38,7 +38,7 @@ def create_event(conn, event):
     :param create_record:
     :return: events id
     """
-     sql = ''' INSERT INTO events(ISO_Week,Event_ISO_Date,Unix_Time,Node,Event_Type,Duration)
+    sql = ''' INSERT INTO events(ISO_Week,Event_ISO_Date,Unix_Time,Node,Event_Type,Duration)
               VALUES(?,?,?,?,?,?) '''
     c = conn.cursor()
     c.execute(sql, event)
