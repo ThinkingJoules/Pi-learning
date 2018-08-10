@@ -88,7 +88,7 @@ def waitForStart(conn, mintime, minvolts):
         standbyTime = float(durStart) - float(durEnd)
         standbyRd = round(standbyTime, 2)
         week = 'W' + str(date.today().isocalendar()[1])
-        isoDate = datetime.datetime.now().isoformat()
+        isoDate = datetime.datetime.now()
         unixTime = time.time()
         event = (week,isoDate,unixTime,node,'Cycle Start',standbyRd)
         sqlite_lib.create_event(conn,event)
@@ -107,7 +107,7 @@ def waitForEnd(conn, mintime, minvolts):
                     durTot = float(durEnd) - float(durStart) + mintime
   		    durTotRnd = round(durTot, 2)
                     week = 'W' + str(date.today().isocalendar()[1])
-                    isoDate = datetime.datetime.now().isoformat()
+                    isoDate = datetime.datetime.now()
                     unixTime = time.time()
                     event = (week,isoDate,unixTime,node,'Cycle End',durTotRnd)
                     sqlite_lib.create_event(conn,event)
