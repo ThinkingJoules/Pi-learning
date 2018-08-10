@@ -48,6 +48,7 @@ def main():
 
     conn = create_connection(database)
     create_table(conn, sql_create_events_table)
+    return
 
 if __name__ == '__main__':
     main()

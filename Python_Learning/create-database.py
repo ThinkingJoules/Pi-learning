@@ -12,6 +12,7 @@ def create_connection(db_file):
         print(e)
     finally:
         conn.close()
+    return
 
 if __name__ == '__main__':
     create_connection(nodeName)
