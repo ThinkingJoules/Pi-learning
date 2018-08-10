@@ -1,13 +1,15 @@
+#!/usr/bin/python
 import gspread
 import time
 import sqlite_lib
 import os
 import datetime
 from datetime import date
-import google-auth
+import google_auth
+import json
 
-gc = google-auth.auth()
-node = os.getlogin()
+gc = google_auth.auth()
+node = 'manual-mill'
 
 wks = gc.open('Test Log').worksheet(node)
  #connect to spreadsheet
@@ -21,7 +23,8 @@ if csTime == 0:
 	print "don't send to spreadsheet"
 	pass
 else:
-	print '{} {} {} {} {}'.format(os.getlogin(),'W' + str(date.today().isocalendar()[1]), 'Cycle Time', csTime, seconds)
-	data = [datetime.datetime.now(),'W' + str(date.today().isocalendar()[1]), node, csTime]
-    #append to spreadsheet
-    wks.append_row(data)
+	now = json.dumps(datetime.datetime.now(), indent=4, sort_keys=True, default=str)
+	print '{} {} {} {} {}'.format(node,'W' + str(date.today().isocalendar()[1]), 'Cycle Time', csTime,'minutes')
+	data = [now,'W' + str(date.today().isocalendar()[1]), node, csTime]
+        #append to spreadsheet
+        wks.append_row(data)

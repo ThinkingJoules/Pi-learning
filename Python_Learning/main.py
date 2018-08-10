@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import RPi.GPIO as GPIO
 import time
 import os
@@ -16,6 +17,7 @@ SPICS = 8
 
 durStart = 0
 durEnd = 0
+node = 'manual-mill'
 
 #port init
 def init():
@@ -88,7 +90,6 @@ def waitForStart(conn, mintime, minvolts):
         week = 'W' + str(date.today().isocalendar()[1])
         isoDate = datetime.datetime.now().isoformat()
         unixTime = time.time()
-        node = os.getlogin()
         event = (week,isoDate,unixTime,node,'Cycle Start',standbyRd)
         sqlite_lib.create_event(conn,event)
         return durStart
@@ -108,7 +109,6 @@ def waitForEnd(conn, mintime, minvolts):
                     week = 'W' + str(date.today().isocalendar()[1])
                     isoDate = datetime.datetime.now().isoformat()
                     unixTime = time.time()
-                    node = os.getlogin()
                     event = (week,isoDate,unixTime,node,'Cycle End',durTotRnd)
                     sqlite_lib.create_event(conn,event)
                     break
@@ -127,7 +127,7 @@ def main():
                   waitForEnd(conn, minOnTime, minVolts)
                   durTot = float(durEnd) - float(durStart) + minOnTime
 	          durTotRnd = round(durTot, 3)
-                  print '{} {} {} {}'.format(os.getlogin(),'cycle duration', durTotRnd, 'seconds')
+                  print '{} {} {} {}'.format(node,'cycle duration', durTotRnd, 'seconds')
                   #each node user must be named for the machine on which it is logging
 
 

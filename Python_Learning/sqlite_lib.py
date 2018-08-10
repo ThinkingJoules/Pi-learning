@@ -10,7 +10,7 @@ def create_connection():
     :return: Connection object or None
     """
     try:
-        database = os.getlogin() + '.db'
+        database = 'manual-mill.db'
         conn = sqlite3.connect(database)
         return conn
     except Error as e:

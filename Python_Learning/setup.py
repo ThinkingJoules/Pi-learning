@@ -1,8 +1,8 @@
 import os
 import gspread
-import google-auth
-import create-database
-import create-table
+import google_auth
+import create_database
+import create_table
 
 
 """
@@ -24,10 +24,9 @@ You will still need to:
 -add [weekly summary dump] to cron every mon at 5am
 -add [weekly backup db dump] to cron every sun at 8p
 
-
 """
 #Create Google Stuff
-gc = google-auth.auth()
+gc = google_auth.auth()
 node = os.getlogin()
 print 'Creating new worksheet!'
 create = gc.add_worksheet(title=node, rows="2", cols="10") #create sheet
@@ -38,7 +37,7 @@ wks.update_cells(header) #add header
 
 #create database
 print 'Now for some database fun! Lets create one!'
-create-database.main()
+create_database.main()
 print 'Hold your hats! Here comes a table!'
-create-table.main()
+create_table.main()
 print 'fin'
